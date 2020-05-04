@@ -2,5 +2,13 @@
 	{
 		"ParameterKey": "EnvironmentName",
 		"ParameterValue": "Udagram"
+	},
+	{
+		"ParameterKey": "DNSProtocol",
+		"ParameterValue": "http://"
+	},
+	{
+		"ParameterKey": "AppS3Bucket",
+		"ParameterValue": "udagram-store"
 	}
 ]
