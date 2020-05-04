@@ -34,6 +34,10 @@ To update the AWS Resource, run
 ./<bash script update file> <resource name> <cloudformation yaml file> <parameter file for cloudformation yaml file>
 ```
 
+### Web App Link
+
+[Udagram Web App](http://udagr-webap-1ol71qqsy40cj-1689279253.us-west-2.elb.amazonaws.com/)
+
 ### License
 
 [MIT](https://opensource.org/licenses/MIT)
