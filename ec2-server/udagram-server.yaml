@@ -1,5 +1,5 @@
 Description: >
-  Russell Nyorere / Udagram Server
+  Russell Nyorere / Udagram Web App provision on EC2 Ubuntu Server
 
 ############################### Parameters ################################
 
@@ -8,6 +8,12 @@ Parameters:
     Description: An environment name that will be prefixed to resource names
     Type: String
     Default: Udagram
+  DNSProtocol:
+    Description: A DNS protocol that will be prefixed to resources
+    Type: String
+  AppS3Bucket:
+    Description: S3 Bucket name
+    Type: String
 
 ############################### Resources #################################
 
@@ -64,7 +70,7 @@ Resources:
           apt-get install apache2 -y
           systemctl start apache2.service
           cd /var/www/html
-          aws s3 cp s3://udagram-store/udagram.zip .
+          aws s3 cp s3://${AppS3Bucket}/udagram.zip .
           unzip -o udagram.zip
       ImageId: ami-09dd2e08d601bff67
       SecurityGroups:
@@ -136,11 +142,46 @@ Resources:
         Fn::ImportValue:
           Fn::Sub: "${EnvironmentName}-VPCID"
 
+  IamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+  IamPolicies:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: root
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: "s3:*"
+            Resource: "*"
+      Roles:
+        - !Ref IamRole
+  IamInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+        - !Ref IamRole
+
 ############################### Output #################################
 
 Outputs:
   WebAppLoadBalancerDNSName:
     Description: DNS name or Public URL of the Load Balancer
-    Value: !Join ["", ["http://", !GetAtt WebAppLB.DNSName]]
+    Value: !Join
+      - ""
+      - - !Sub ${DNSProtocol}
+        - !GetAtt WebAppLB.DNSName
     Export:
       Name: !Sub ${EnvironmentName}-DNS-URL
