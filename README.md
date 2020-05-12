@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-IaaS - Infrastructure as a Code -> Provisioning of AWS Cloud Resources and Deployment of Udagram Application using CloudFormation Script.
+IaaS - Infrastructure as a Code -> Provisioning of AWS Infrastructures (Resources -> VPC, Compute Server, LoadBalancer, AutoScaling etc) using CloudFormation Infrastructure as Code (IaaC).
 
 ##### Infrastructure Diagram
 
