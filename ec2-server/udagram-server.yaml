@@ -69,9 +69,6 @@ Resources:
           apt-get install unzip awscli -y
           apt-get install apache2 -y
           systemctl start apache2.service
-          cd /var/www/html
-          aws s3 cp s3://${AppS3Bucket}/udagram.zip .
-          unzip -o udagram.zip
       ImageId: ami-09dd2e08d601bff67
       SecurityGroups:
         - Ref: WebServerSecGroup
@@ -158,7 +155,7 @@ Resources:
   IamPolicies:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: root
+      PolicyName: S3Policy
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
